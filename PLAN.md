@@ -252,12 +252,182 @@ export function shareResult(type) {
 
 ---
 
-## 八、下一步行动
+## 九、移动端适配与兼容性修复计划（2026-04-12）
 
-**现在就开始？**
+### 问题清单
 
-我可以：
-1. 先帮你搭建 Vue 3 项目骨架
-2. 或者先完善题目数据（把 25 道题精修一遍）
+| 问题 | 描述 | 优先级 |
+|------|------|--------|
+| 微信无法访问 | 需要在根目录放置验证文件 | P0 |
+| 苹果手机打不开 | iOS Safari 兼容性问题（具体原因待确认） | P0 |
+| 首页手机排版丑 | 间距、字号、按钮布局问题 | P1 |
 
-你选哪个？
+### 9.1 微信验证文件
+
+**操作：** 创建 `public/9bbc7c100a6b2951c7360114703f6d87.txt`
+
+**内容：**
+```
+9a3a9e266e168e5e7ffd9dede7a5a5e43ea134d4
+```
+
+**说明：** `public/` 目录下的文件会在 `npm run build` 时自动复制到 `dist/`，部署后可通过 `https://nmtt.ccwu.cc/9bbc7c100a6b2951c7360114703f6d87.txt` 访问。
+
+---
+
+### 9.2 iOS Safari 兼容性修复
+
+**修改文件：** `index.html`
+
+**添加 meta 标签：**
+```html
+<!-- 优化 viewport，适配 iPhone X 刘海屏 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+
+<!-- iOS Web App 支持 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- 禁止自动识别电话号码 -->
+<meta name="format-detection" content="telephone=no">
+
+<!-- 主题色 -->
+<meta name="theme-color" content="#f59e0b">
+```
+
+**修改文件：** `vite.config.js`
+
+**添加构建目标：**
+```js
+export default defineConfig({
+  plugins: [vue()],
+  build: {
+    target: ['es2015', 'safari11'],  // 兼容 iOS 11+
+    cssTarget: 'safari11'
+  }
+})
+```
+
+---
+
+### 9.3 首页移动端样式优化
+
+**修改文件：** `src/components/HomePage.vue`
+
+**优化内容：**
+
+1. **标题字号响应式**
+   - 大屏：`text-5xl md:text-7xl`（已有）
+   - 优化：小屏幕下 `text-4xl`，更紧凑
+
+2. **按钮区域**
+   - 当前：`flex-col sm:flex-row`（已有）
+   - 优化：增加小屏幕下的按钮宽度，让按钮更易点击
+   - 添加 `w-full sm:w-auto` 让按钮在小屏幕下撑满
+
+3. **间距调整**
+   - 标题区域 `mb-8` → `mb-6`（小屏幕）
+   - 牛马图标 `text-8xl` → `text-6xl sm:text-8xl`
+   - 底部版权区域在小屏幕下更紧凑
+
+4. **模态框优化**
+   - 在小屏幕下增加内边距
+   - 输入框更大的点击区域
+
+---
+
+### 9.4 全局移动端样式增强
+
+**修改文件：** `src/style.css`
+
+**添加内容：**
+```css
+/* 安全区域适配（iPhone X 刘海屏） */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* 触摸优化 */
+button, a, label {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 滚动优化 */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* 防止 iOS Safari 双击缩放 */
+body {
+  touch-action: pan-y;
+}
+```
+
+---
+
+### 9.5 部署同步流程
+
+**当前部署方式：** Cloudflare Pages + GitHub 仓库
+
+**同步步骤：**
+
+```bash
+# 1. 本地修改代码后，构建测试
+npm run build
+npm run preview  # 本地预览
+
+# 2. 确认无误后，提交并推送
+git add .
+git commit -m "fix: 移动端适配与iOS兼容性修复"
+git push origin main
+
+# 3. Cloudflare Pages 会自动检测推送并重新部署
+#    （无需手动操作，约 1-2 分钟生效）
+```
+
+**手动部署（紧急情况）：**
+
+如果自动部署失败，可以在 Cloudflare Dashboard 手动触发：
+1. 进入 Cloudflare Pages 项目
+2. 点击「View details」→「Retry deployment」
+
+**本地直接推送 dist（不推荐）：**
+```bash
+# 使用 wrangler 直接部署
+npx wrangler pages deploy dist --project-name=nmti
+```
+
+---
+
+### 9.6 执行检查清单
+
+- [ ] 创建微信验证文件 `public/9bbc7c100a6b2951c7360114703f6d87.txt`
+- [ ] 更新 `index.html` 添加 iOS 兼容 meta 标签
+- [ ] 更新 `vite.config.js` 添加构建目标
+- [ ] 优化 `src/components/HomePage.vue` 移动端样式
+- [ ] 更新 `src/style.css` 添加移动端增强样式
+- [ ] 本地构建测试 `npm run build && npm run preview`
+- [ ] 提交代码并推送到 GitHub
+- [ ] 等待 Cloudflare Pages 自动部署完成
+- [ ] 测试微信访问、iOS Safari 访问
+
+---
+
+### 9.7 预期效果
+
+| 平台 | 修复前 | 修复后 |
+|------|--------|--------|
+| 微信 | 无法访问 | 正常访问 |
+| iOS Safari | 可能白屏/打不开 | 正常加载 |
+| 手机首页 | 间距不合理，排版丑 | 紧凑美观，易操作 |
+| iPhone X 系列 | 刘海屏遮挡内容 | 安全区域适配 |
+
+---
+
+**审核通过后，我将按上述清单逐项执行。**

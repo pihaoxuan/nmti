@@ -79,30 +79,30 @@ function startReverseInsane() {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center px-4">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 py-8">
     <!-- 主标题 -->
-    <div class="text-center mb-8">
-      <h1 class="text-5xl md:text-7xl font-bold text-stone-800 dark:text-stone-100 mb-4">
+    <div class="text-center mb-6 sm:mb-8">
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-stone-800 dark:text-stone-100 mb-3 sm:mb-4">
         NMTI
       </h1>
-      <p class="text-xl md:text-2xl text-stone-600 dark:text-stone-400 mb-2">
+      <p class="text-lg sm:text-xl md:text-2xl text-stone-600 dark:text-stone-400 mb-2">
         牛马型人格测试
       </p>
-      <p class="text-lg text-stone-500 dark:text-stone-500">
+      <p class="text-base sm:text-lg text-stone-500 dark:text-stone-500 px-2">
         MBTI 教你成为独特的个体，NMTI 告诉你我们都是同样的牛马。
       </p>
     </div>
 
     <!-- 牛马图标 -->
-    <div class="text-8xl mb-8">
+    <div class="text-6xl sm:text-8xl mb-6 sm:mb-8">
       🐮
     </div>
 
     <!-- 主按钮区 -->
-    <div class="flex flex-col sm:flex-row gap-4">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
       <button
         @click="startNormal"
-        class="px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white text-xl font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
+        class="w-full sm:w-auto px-8 py-3 sm:py-4 bg-amber-500 hover:bg-amber-600 text-white text-lg sm:text-xl font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
       >
         开始测试
       </button>
@@ -112,7 +112,7 @@ function startReverseInsane() {
         @click="startInsane"
         :disabled="!insaneAvailable"
         :class="[
-          'px-8 py-4 text-xl font-semibold rounded-xl shadow-lg transition-all duration-200',
+          'w-full sm:w-auto px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg transition-all duration-200',
           insaneAvailable
             ? 'bg-purple-500 hover:bg-purple-600 text-white hover:scale-105 active:scale-95'
             : 'bg-stone-300 dark:bg-stone-700 text-stone-500 dark:text-stone-400 cursor-not-allowed'
@@ -123,22 +123,22 @@ function startReverseInsane() {
     </div>
 
     <!-- 发疯版提示 -->
-    <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">
+    <p class="mt-2 sm:mt-3 text-sm text-stone-500 dark:text-stone-400">
       {{ insaneHint }}
     </p>
 
     <!-- 分隔线 -->
-    <div class="mt-8 flex items-center gap-4 text-stone-400">
-      <div class="h-px bg-stone-300 dark:bg-stone-700 w-16"></div>
+    <div class="mt-6 sm:mt-8 flex items-center gap-4 text-stone-400">
+      <div class="h-px bg-stone-300 dark:bg-stone-700 w-12 sm:w-16"></div>
       <span class="text-sm">或者</span>
-      <div class="h-px bg-stone-300 dark:bg-stone-700 w-16"></div>
+      <div class="h-px bg-stone-300 dark:bg-stone-700 w-12 sm:w-16"></div>
     </div>
 
     <!-- 反向测试按钮 -->
-    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+    <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3">
       <button
         @click="openReverseModal('normal')"
-        class="px-6 py-3 bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 font-medium rounded-lg transition-all duration-200"
+        class="w-full sm:w-auto px-6 py-3 bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 font-medium rounded-lg transition-all duration-200"
       >
         🎯 测测别人
       </button>
@@ -147,7 +147,7 @@ function startReverseInsane() {
         @click="startReverseInsane"
         :disabled="!insaneAvailable"
         :class="[
-          'px-6 py-3 font-medium rounded-lg transition-all duration-200',
+          'w-full sm:w-auto px-6 py-3 font-medium rounded-lg transition-all duration-200',
           insaneAvailable
             ? 'bg-purple-100 dark:bg-purple-900/50 hover:bg-purple-200 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300'
             : 'bg-stone-200 dark:bg-stone-800 text-stone-400 dark:text-stone-500 cursor-not-allowed'
@@ -195,15 +195,15 @@ function startReverseInsane() {
     </div>
 
     <!-- 底部信息 -->
-    <div class="mt-16 text-center text-stone-500 dark:text-stone-500 text-sm">
+    <div class="mt-10 sm:mt-16 text-center text-stone-500 dark:text-stone-500 text-sm px-4">
       <p>共 25 道题，约需 3 分钟</p>
-      <p class="mt-2">
+      <p class="mt-1 sm:mt-2">
         纯娱乐，别当真
       </p>
     </div>
 
     <!-- 版权与开源协议 -->
-    <div class="absolute bottom-4 text-center text-stone-400 dark:text-stone-600 text-xs">
+    <div class="mt-8 sm:mt-12 pb-4 text-center text-stone-400 dark:text-stone-600 text-xs px-4">
       <p>
         Made with 🐮 by <span class="font-semibold text-stone-500 dark:text-stone-500">PIHX</span>
       </p>
